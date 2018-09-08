@@ -16,14 +16,6 @@ fun profile(topic: String, vararg tags: Tag, body: ProfileBody.() -> Unit) {
     pb.write()
 }
 
-abstract class ProfilingSuite(topic: String, vararg tags: Tag, body: ProfileBody.() -> Unit) {
-    init {
-        val pb = ProfileBodyImpl(topic, tags.asList())
-        pb.body()
-        pb.write()
-    }
-}
-
 fun view(topic: String, vararg tags: Tag, out: PrintStream = System.out) {
     plainText.view(topic, *tags, out = out)
 }

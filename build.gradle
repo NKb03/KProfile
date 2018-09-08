@@ -2,15 +2,24 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.61'
     id 'maven-publish'
     id 'java-library'
+    id 'application'
 }
 
 group 'nikok'
 version '1.0.0'
 
+mainClassName = "nikok.kprofile.cmd.KProfile"
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            artifact sourcesJar
         }
     }
 }
