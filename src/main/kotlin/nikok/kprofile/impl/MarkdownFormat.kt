@@ -41,10 +41,12 @@ class MarkdownFormat(private val theme: MarkdownTheme) : ResultFormat {
             h(2, tags.joinToString { it.name })
             ul {
                 for (r in results) {
-                    p {
-                        append(r.description)
-                        append(" ")
-                        append(r.resourcesNeeded.joinToString())
+                    "li" {
+                        p {
+                            append(r.description)
+                            append(" ")
+                            append(r.resourcesNeeded.joinToString())
+                        }
                     }
                 }
             }
