@@ -1,17 +1,13 @@
 package nikok.kprofile.impl
 
 import khtml.api.*
-import khtml.api.md.Markdown
 import khtml.api.md.MarkdownTheme
 import khtml.api.md.markdown
-import nikok.kprofile.api.markdown
 import nikok.kprofile.api.ResultFormat
 import nikok.kprofile.api.Tag
-import java.nio.file.Files
-import java.nio.file.Paths
 
 class MarkdownFormat(private val theme: MarkdownTheme) : ResultFormat {
-    override fun diff(topic: String, vararg tagss: List<Tag>, out: Appendable) {
+    override fun diff(topic: String, out: Appendable, vararg tagss: List<Tag>) {
         val resultss = tagss.associate { tags ->
             tags to Results.get(topic, tags).associate { res -> res.description to res.resourcesNeeded }
         }
@@ -36,9 +32,9 @@ class MarkdownFormat(private val theme: MarkdownTheme) : ResultFormat {
         }
     }
 
-    override fun view(topic: String, vararg tags: Tag, out: Appendable) {
+    override fun view(topic: String, tags: List<Tag>, out: Appendable) {
         markdown(out, theme) {
-            val results = Results.get(topic, tags.asList())
+            val results = Results.get(topic, tags)
             h(1, topic)
             h(2, tags.joinToString { it.name })
             ul {
