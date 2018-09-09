@@ -12,6 +12,4 @@ interface ProfileBody {
     fun String.needed(vararg resources: Resource)
 
     fun profile(description: String, action: () -> Unit)
-
-    fun profileNanos(description: String, action: () -> Unit)
 }
