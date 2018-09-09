@@ -21,11 +21,13 @@ class MarkdownFormat(private val theme: MarkdownTheme) : ResultFormat {
                 for (results in resultss) {
                     val (tags, descToResults) = results
                     val resultsForTags = descToResults[desc]
-                    p {
-                        append(tags.joinToString { it.name })
-                        append(": ")
-                        if (resultsForTags == null) append("No results")
-                        else append(resultsForTags.joinToString())
+                    "li" {
+                        p {
+                            append(tags.joinToString { it.name })
+                            append(": ")
+                            if (resultsForTags == null) append("No results")
+                            else append(resultsForTags.joinToString())
+                        }
                     }
                 }
             }
