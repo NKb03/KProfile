@@ -7,7 +7,6 @@ package nikok.kprofile.impl
 import nikok.kprofile.api.Resource
 import nikok.kprofile.api.ResultFormat
 import nikok.kprofile.api.Tag
-import nikok.kprofile.api.view
 import java.io.PrintStream
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -17,8 +16,8 @@ internal object PlainText: ResultFormat {
         return joinToString(separator = ", ")
     }
 
-    override fun view(topic: String, tags: Array<out Tag>, out: Appendable) {
-        val results = Results.get(topic, tags.asList())
+    override fun view(topic: String, tags: List<Tag>, out: Appendable) {
+        val results = Results.get(topic, tags)
         out.append("results for $topic: ")
         out.append("\n")
         for (r in results) {
@@ -29,15 +28,7 @@ internal object PlainText: ResultFormat {
         }
     }
 
-    internal fun view(fileName: String, topic: String, tags: Array<out Tag>) {
-        val p = Paths.get(fileName)
-        Files.createFile(p)
-        val os = Files.newOutputStream(p)
-        val ps = PrintStream(os)
-        view(topic, *tags, out = ps)
-    }
-
-    override fun diff(topic: String, tagss: Array<out List<Tag>>, out: Appendable) {
+    override fun diff(topic: String, out: Appendable, vararg tagss: List<Tag>) {
         val resultss = tagss.associate { tags ->
             tags to Results.get(topic, tags).associate { res -> res.description to res.resourcesNeeded }
         }
