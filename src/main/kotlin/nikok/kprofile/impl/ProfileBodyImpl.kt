@@ -37,7 +37,10 @@ internal class ProfileBodyImpl(
     }
 
     override fun profile(description: String, action: () -> Unit) {
-        val nanos = measureNanoTime(action)
+        val before = System.nanoTime()
+        action.invoke()
+        val after = System.nanoTime()
+        val nanos = after - before
         val time = Time.ofNanos(nanos)
         description took time
     }
