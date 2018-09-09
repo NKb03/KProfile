@@ -36,7 +36,7 @@ class Time private constructor(private val value: Long, private val unit: TimeUn
             return when {
                 nanos > 60_000_000_000 -> Time(nanos / 60_000_000_000, TimeUnit.minutes)
                 nanos > 1_000_000_000 -> Time(nanos / 1_000_000_000, TimeUnit.seconds)
-                nanos > 1_000_000_000 -> Time(nanos / 1_000_000, TimeUnit.milliseconds)
+                nanos > 1_000_000 -> Time(nanos / 1_000_000, TimeUnit.milliseconds)
                 nanos > 1_000 -> Time(nanos / 1_000, TimeUnit.microseconds)
                 nanos > 0 -> Time(nanos, TimeUnit.nanoseconds)
                 else -> throw IllegalArgumentException("nanos must be non-negative")
