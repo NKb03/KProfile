@@ -31,7 +31,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile 'nikok:khtml:1.0.0'
+    implementation 'nikok:khtml:1.0.0'
 }
 
 compileKotlin {
