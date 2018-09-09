@@ -141,7 +141,7 @@ private object KProfile {
             return
         }
         try {
-            view(topic, *tags.toTypedArray())
+            view(topic, tags)
         } catch (notFound: ProfilingResultsNotFoundException) {
             println(notFound.message)
         } catch (ipe: InvalidPathException) {
