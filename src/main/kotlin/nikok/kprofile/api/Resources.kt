@@ -26,7 +26,7 @@ data class Memory(
 enum class TimeUnit: Serializable {
     nanoseconds, microseconds, milliseconds, seconds, minutes;
 }
-class Time private constructor(private val value: Long, private val unit: TimeUnit): Resource {
+class Time private constructor(private val value: Double, private val unit: TimeUnit): Resource {
     override fun toString(): String {
         return "took $value $unit"
     }
@@ -34,11 +34,11 @@ class Time private constructor(private val value: Long, private val unit: TimeUn
     companion object {
         fun ofNanos(nanos: Long): Time {
             return when {
-                nanos > 60_000_000_000 -> Time(nanos / 60_000_000_000, TimeUnit.minutes)
-                nanos > 1_000_000_000 -> Time(nanos / 1_000_000_000, TimeUnit.seconds)
-                nanos > 1_000_000 -> Time(nanos / 1_000_000, TimeUnit.milliseconds)
-                nanos > 1_000 -> Time(nanos / 1_000, TimeUnit.microseconds)
-                nanos > 0 -> Time(nanos, TimeUnit.nanoseconds)
+                nanos > 60_000_000_000 -> Time(nanos.toDouble() / 60_000_000_000, TimeUnit.minutes)
+                nanos > 1_000_000_000 -> Time(nanos.toDouble() / 1_000_000_000, TimeUnit.seconds)
+                nanos > 1_000_000 -> Time(nanos.toDouble() / 1_000_000, TimeUnit.milliseconds)
+                nanos > 1_000 -> Time(nanos.toDouble() / 1_000, TimeUnit.microseconds)
+                nanos > 0 -> Time(nanos.toDouble(), TimeUnit.nanoseconds)
                 else -> throw IllegalArgumentException("nanos must be non-negative")
             }
         }
