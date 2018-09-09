@@ -6,7 +6,7 @@ import khtml.api.md.markdown
 import nikok.kprofile.api.ResultFormat
 import nikok.kprofile.api.Tag
 
-class MarkdownFormat(private val theme: MarkdownTheme) : ResultFormat {
+internal object MarkdownFormat : ResultFormat {
     override fun diff(topic: String, out: Appendable, vararg tagss: List<Tag>) {
         val resultss = tagss.associate { tags ->
             tags to Results.get(topic, tags).associate { res -> res.description to res.resourcesNeeded }
@@ -14,7 +14,7 @@ class MarkdownFormat(private val theme: MarkdownTheme) : ResultFormat {
         val descriptions = resultss.flatMapTo(mutableSetOf()) { (_, descriptionToResults) ->
             descriptionToResults.map { (description, _) -> description }
         }
-        markdown(out) {
+        markdown(out, DarkTheme) {
             h1(topic)
             for (desc in descriptions) {
                 h5(desc)
@@ -35,7 +35,7 @@ class MarkdownFormat(private val theme: MarkdownTheme) : ResultFormat {
     }
 
     override fun view(topic: String, tags: List<Tag>, out: Appendable) {
-        markdown(out, theme) {
+        markdown(out, DarkTheme) {
             val results = Results.get(topic, tags)
             h(1, topic)
             h(2, tags.joinToString { it.name })
