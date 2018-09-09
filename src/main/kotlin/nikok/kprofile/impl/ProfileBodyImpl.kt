@@ -7,7 +7,6 @@ package nikok.kprofile.impl
 import nikok.kprofile.api.*
 import java.io.ObjectOutputStream
 import kotlin.system.measureNanoTime
-import kotlin.system.measureTimeMillis
 
 internal class ProfileBodyImpl(
     private val topic: String, private val tags: List<Tag>
@@ -38,13 +37,9 @@ internal class ProfileBodyImpl(
     }
 
     override fun profile(description: String, action: () -> Unit) {
-        val millis = measureTimeMillis { action() }
-        description took millis.millis
-    }
-
-    override fun profileNanos(description: String, action: () -> Unit) {
         val nanos = measureNanoTime(action)
-        description took nanos.nanos
+        val time = Time.ofNanos(nanos)
+        description took time
     }
 }
 
