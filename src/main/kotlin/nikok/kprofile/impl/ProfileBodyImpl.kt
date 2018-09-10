@@ -36,13 +36,14 @@ internal class ProfileBodyImpl(
         oos.close()
     }
 
-    override fun profile(description: String, action: () -> Unit) {
+    override fun <T> profile(description: String, action: () -> T): T {
         val before = System.nanoTime()
-        action.invoke()
+        val t = action.invoke()
         val after = System.nanoTime()
         val nanos = after - before
         val time = Time.ofNanos(nanos)
         description took time
+        return t
     }
 }
 
