@@ -16,8 +16,7 @@ fun profile(topic: String, tags: List<Tag>, body: ProfileBody.() -> Unit) {
     pb.write()
 }
 
-fun ResultFormat.view(topic: String, tags: List<Tag>, fileName: String) {
-    val path = Paths.get(fileName)
+fun ResultFormat.view(topic: String, tags: List<Tag>, path: Path) {
     if (!exists(path)) createFile(path)
     val out = Files.newOutputStream(path).bufferedWriter()
     view(topic, tags, out)
