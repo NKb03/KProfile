@@ -11,5 +11,5 @@ interface ProfileBody {
 
     fun String.needed(vararg resources: Resource)
 
-    fun profile(description: String, action: () -> Unit)
+    fun <T> profile(description: String, action: () -> T): T
 }
