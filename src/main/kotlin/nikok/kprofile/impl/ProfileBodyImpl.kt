@@ -4,7 +4,6 @@
 
 package nikok.kprofile.impl
 
-import memento.Memorizer
 import nikok.kprofile.api.*
 
 internal class ProfileBodyImpl(
@@ -29,10 +28,7 @@ internal class ProfileBodyImpl(
     }
 
     internal fun write() {
-        val memento = memorizer.memorize(results)
-        Results.getOutputStream(topic, tags).use { os ->
-            memento.writeTo(os)
-        }
+        Results.saveResults(topic, tags, results)
     }
 
     override fun <T> profile(description: String, action: () -> T): T {
@@ -43,10 +39,6 @@ internal class ProfileBodyImpl(
         val time = Time.ofNanos(nanos)
         description took time
         return t
-    }
-
-    companion object {
-        private val memorizer = Memorizer.newInstance()
     }
 }
 

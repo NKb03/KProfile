@@ -4,12 +4,13 @@
 
 package nikok.kprofile.impl
 
+import memento.Memento
+import memento.Memorizer
 import memento.SelfMemorable
 import nikok.kprofile.api.ProfilingResultsNotFoundException
 import nikok.kprofile.api.Resource
 import nikok.kprofile.api.Tag
 import java.io.InputStream
-import java.io.ObjectInputStream
 import java.io.OutputStream
 import java.nio.file.Files
 import java.nio.file.Path
@@ -17,7 +18,6 @@ import java.nio.file.Paths
 
 internal object Results {
     private val RESULTS_FOLDER = resultsPath()
-
     private fun resultsPath(): Path {
         val appData = System.getenv("LOCALAPPDATA")
         val appDataPath = Paths.get(appData)
@@ -34,11 +34,16 @@ internal object Results {
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun readResults(bis: InputStream): List<Result> {
-        val ois = ObjectInputStream(bis)
-        val results = ois.readObject()
-        ois.close()
-        return results as List<Result>
+    private fun readResults(input: InputStream): List<Result> {
+        val memento = Memento.readFrom(input)
+        val remembered = memorizer.remember(memento)
+        return memento as List<Result>
+    }
+
+    fun saveResults(topic: String, tags: List<Tag>, results: List<Result>) {
+        val out = getOutputStream(topic, tags)
+        val memento = memorizer.memorize(results)
+        memento.writeTo(out)
     }
 
     private fun getPath(topic: String, tags: List<Tag>, mustExist: Boolean): Path {
@@ -67,6 +72,9 @@ internal object Results {
         }
         return Files.newOutputStream(path).buffered()
     }
+
+    private val memorizer = Memorizer.newInstance()
+
 }
 
-internal data class Result(val description: String, val resourcesNeeded: List<Resource>): SelfMemorable
+internal data class Result(val description: String, val resourcesNeeded: List<Resource>) : SelfMemorable
