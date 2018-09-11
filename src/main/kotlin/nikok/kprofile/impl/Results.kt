@@ -62,7 +62,7 @@ internal object Results {
         return Files.newInputStream(path).buffered()
     }
 
-    internal fun getOutputStream(topic: String, tags: List<Tag>): OutputStream {
+    private fun getOutputStream(topic: String, tags: List<Tag>): OutputStream {
         val path = getPath(topic, tags, mustExist = false)
         if (!Files.exists(path.parent)) {
             Files.createDirectory(path.parent)
@@ -77,4 +77,8 @@ internal object Results {
 
 }
 
-internal data class Result(val description: String, val resourcesNeeded: List<Resource>) : SelfMemorable
+internal data class Result(val description: String, val resourcesNeeded: List<Resource>) : SelfMemorable {
+    private companion object {
+        fun createAdapter() = Result("", emptyList())
+    }
+}
