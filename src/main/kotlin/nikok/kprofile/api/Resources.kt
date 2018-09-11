@@ -20,6 +20,10 @@ class Memory internal constructor(
     override fun toString(): String {
         return "consumed $value $unit of $kind"
     }
+
+    private companion object {
+        fun createAdapter() = Memory(MemoryConsumptionKind.RAM, 0.0, MemoryUnit.byte)
+    }
 }
 
 private const val KILO_BYTE = 1024L
@@ -64,5 +68,7 @@ class Time private constructor(private val value: Double, private val unit: Time
                 else -> throw IllegalArgumentException("Cannot accept negative time")
             }
         }
+
+        private fun createAdapter() = Time(0.0, TimeUnit.nanoseconds)
     }
 }
