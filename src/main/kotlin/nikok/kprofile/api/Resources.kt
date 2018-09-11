@@ -4,14 +4,14 @@
 
 package nikok.kprofile.api
 
-import java.io.Serializable
+import memento.SelfMemorable
 
-interface Resource: Serializable
+interface Resource: SelfMemorable
 
 @Suppress("EnumEntryName")
-enum class MemoryUnit: Serializable { byte, kilobyte, megabyte, gigabyte, terrabyte }
+enum class MemoryUnit { byte, kilobyte, megabyte, gigabyte, terrabyte }
 @Suppress("EnumEntryName")
-enum class MemoryConsumptionKind: Serializable { RAM, disc }
+enum class MemoryConsumptionKind { RAM, disc }
 data class Memory(
     var kind: MemoryConsumptionKind,
     var value: Long,
@@ -23,7 +23,7 @@ data class Memory(
 }
 
 @Suppress("EnumEntryName")
-enum class TimeUnit: Serializable {
+enum class TimeUnit {
     nanoseconds, microseconds, milliseconds, seconds, minutes;
 }
 class Time private constructor(private val value: Double, private val unit: TimeUnit): Resource {

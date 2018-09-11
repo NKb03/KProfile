@@ -4,9 +4,8 @@
 
 package nikok.kprofile.impl
 
+import memento.Memorizer
 import nikok.kprofile.api.*
-import java.io.ObjectOutputStream
-import kotlin.system.measureNanoTime
 
 internal class ProfileBodyImpl(
     private val topic: String, private val tags: List<Tag>
@@ -30,10 +29,10 @@ internal class ProfileBodyImpl(
     }
 
     internal fun write() {
-        val os = Results.getOutputStream(topic, tags)
-        val oos = ObjectOutputStream(os)
-        oos.writeObject(results)
-        oos.close()
+        val memento = memorizer.memorize(results)
+        Results.getOutputStream(topic, tags).use { os ->
+            memento.writeTo(os)
+        }
     }
 
     override fun <T> profile(description: String, action: () -> T): T {
@@ -44,6 +43,10 @@ internal class ProfileBodyImpl(
         val time = Time.ofNanos(nanos)
         description took time
         return t
+    }
+
+    companion object {
+        private val memorizer = Memorizer.newInstance()
     }
 }
 

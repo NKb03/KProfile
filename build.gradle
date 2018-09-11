@@ -30,8 +30,9 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation 'nikok:khtml:1.0.0'
+    implementation 'nikok:memento:1.0-SNAPSHOT'
 }
 
 compileKotlin {

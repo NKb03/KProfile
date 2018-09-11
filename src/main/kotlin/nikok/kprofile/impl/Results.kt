@@ -4,13 +4,13 @@
 
 package nikok.kprofile.impl
 
+import memento.SelfMemorable
 import nikok.kprofile.api.ProfilingResultsNotFoundException
 import nikok.kprofile.api.Resource
 import nikok.kprofile.api.Tag
 import java.io.InputStream
 import java.io.ObjectInputStream
 import java.io.OutputStream
-import java.io.Serializable
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -69,4 +69,4 @@ internal object Results {
     }
 }
 
-internal data class Result(val description: String, val resourcesNeeded: List<Resource>): Serializable
+internal data class Result(val description: String, val resourcesNeeded: List<Resource>): SelfMemorable
