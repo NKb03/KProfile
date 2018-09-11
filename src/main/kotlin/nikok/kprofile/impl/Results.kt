@@ -37,7 +37,7 @@ internal object Results {
     private fun readResults(input: InputStream): List<Result> {
         val memento = Memento.readFrom(input)
         val remembered = memorizer.remember(memento)
-        return memento as List<Result>
+        return remembered as List<Result>
     }
 
     fun saveResults(topic: String, tags: List<Tag>, results: List<Result>) {
